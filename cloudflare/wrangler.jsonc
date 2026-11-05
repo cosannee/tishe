@@ -3,8 +3,12 @@
   "main": "src/index.js",
   "compatibility_date": "2026-11-05",
   "workers_dev": true,
+  "vars": {
+    "SUPABASE_URL": "https://phdygiikezhujvgydjiw.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_1FtB6IIyr4J6WAY0215wPA_mwOUwvm9"
+  },
   "ratelimits": [
-    { "name": "IP_LIMIT", "namespace_id": "1001", "simple": { "limit": 3, "period": 60 } },
+    { "name": "USER_LIMIT", "namespace_id": "1001", "simple": { "limit": 3, "period": 60 } },
     { "name": "GLOBAL_LIMIT", "namespace_id": "1002", "simple": { "limit": 12, "period": 60 } }
   ]
 }

@@ -35,7 +35,19 @@ function instructions(mode, style) {
 
 async function handleAI(request, env) {
   if (!env.OPENAI_API_KEY) return json({ error: 'AI is not configured' }, 503);
-  if (!env.IP_LIMIT || !env.GLOBAL_LIMIT) return json({ error: 'Rate limits are not configured' }, 503);
+  if (!env.SUPABASE_URL || !env.SUPABASE_PUBLISHABLE_KEY) return json({ error: 'Sign-in is not configured' }, 503);
+  if (!env.USER_LIMIT || !env.GLOBAL_LIMIT) return json({ error: 'Rate limits are not configured' }, 503);
+  const token = request.headers.get('authorization')?.match(/^Bearer ([^\s]+)$/i)?.[1];
+  if (!token) return json({ error: 'Sign in required' }, 401);
+  let identity;
+  try {
+    const result = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
+      headers: { apikey: env.SUPABASE_PUBLISHABLE_KEY, authorization: `Bearer ${token}` }
+    });
+    if (!result.ok) return json({ error: 'Sign in required' }, 401);
+    identity = await result.json();
+  } catch { return json({ error: 'Authentication unavailable' }, 502); }
+  if (!identity?.id) return json({ error: 'Sign in required' }, 401);
   if (Number(request.headers.get('content-length') || 0) > 20000) return json({ error: 'Request too large' }, 413);
   let raw;
   try { raw = await request.text(); } catch { return json({ error: 'Invalid request' }, 400); }
@@ -45,12 +57,11 @@ async function handleAI(request, env) {
   if (!body || !['talk', 'motivate', 'food'].includes(body.mode)) return json({ error: 'Unknown mode' }, 400);
   const prompt = string(body.text, 4000);
   if (!prompt) return json({ error: 'Empty message' }, 400);
-  const ip = request.headers.get('cf-connecting-ip') || 'unknown';
-  const [perIp, global] = await Promise.all([
-    env.IP_LIMIT.limit({ key: ip }),
+  const [perUser, global] = await Promise.all([
+    env.USER_LIMIT.limit({ key: identity.id }),
     env.GLOBAL_LIMIT.limit({ key: 'tishe-ai' })
   ]);
-  if (!perIp.success || !global.success) return json({ error: 'Please wait a moment' }, 429);
+  if (!perUser.success || !global.success) return json({ error: 'Please wait a moment' }, 429);
   const profile = body.profile && typeof body.profile === 'object' ? body.profile : {};
   const history = Array.isArray(body.history) ? body.history.slice(-8).map(m => `${m.role === 'assistant' ? 'Помощник' : 'Пользователь'}: ${string(m.text, 1000)}`).join('\n') : '';
   const context = [
@@ -79,7 +90,7 @@ export default {
     const url = new URL(request.url);
     if (url.pathname !== '/api/ai') return json({ error: 'Not found' }, 404);
     if (request.headers.get('origin') !== allowedOrigin) return json({ error: 'Origin rejected' }, 403);
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...baseHeaders, 'access-control-allow-methods': 'POST, OPTIONS', 'access-control-allow-headers': 'content-type', 'access-control-max-age': '600' } });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...baseHeaders, 'access-control-allow-methods': 'POST, OPTIONS', 'access-control-allow-headers': 'content-type, authorization', 'access-control-max-age': '600' } });
     if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
     return handleAI(request, env);
   }

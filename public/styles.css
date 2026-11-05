@@ -77,3 +77,17 @@ dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;w
 .shell .footer{position:static;left:auto;right:auto;bottom:auto;width:auto;min-height:0;margin-top:clamp(72px,11vh,130px);padding:0 0 18px;transform:none;justify-content:center;align-items:center;background:transparent}
 .shell .footer-number{display:none}
 .style-preview{margin:-4px 0 24px;color:var(--muted);font-size:12px;line-height:1.7;max-width:430px}
+
+.auth-screen{min-height:100dvh;width:min(100%,800px);margin:0 auto;padding:28px clamp(27px,6vw,64px) 35px;display:flex;flex-direction:column;background:var(--paper)}
+.auth-screen .brand{font-size:19px}
+.auth-copy{width:min(100%,440px);margin:auto 0; padding:75px 0}
+.auth-copy h1{font-size:clamp(30px,5vw,38px);font-weight:500;line-height:1.2;margin-bottom:25px}
+.auth-copy>p{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:28px}
+.auth-copy .notice{margin-bottom:23px}
+.auth-copy label{margin:35px 0 16px}
+.auth-copy input{border-radius:24px;padding:15px 17px}
+.auth-copy .outline{border-radius:24px;min-height:46px;padding:12px 20px}
+.auth-copy .tiny{margin-top:23px;font-size:11px}
+.auth-screen>.whisper{font-size:11px;align-self:center}
+.migration-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 23px;margin-top:34px}
+.migration-actions .text-button{min-height:46px}
