@@ -69,7 +69,7 @@ export default {
     const asset = assets[path === '/' ? '/index.html' : path];
     if (!asset) return new Response('Not found', { status: 404 });
     return new Response(request.method === 'HEAD' ? null : asset.body, {
-      headers: { 'content-type': asset.type, 'cache-control': path === '/' ? 'no-store' : 'public, max-age=3600', 'x-content-type-options': 'nosniff' }
+      headers: { 'content-type': asset.type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' }
     });
   }
 };
