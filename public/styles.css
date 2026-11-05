@@ -91,3 +91,36 @@ dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;w
 .auth-screen>.whisper{font-size:11px;align-self:center}
 .migration-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px 23px;margin-top:34px}
 .migration-actions .text-button{min-height:46px}
+/* Stars, personal field and goals */
+.star-choice{display:grid;place-items:center;width:180px;height:180px;margin:4vh auto 12px;color:var(--chosen-accent,#343630)}
+.star-choice .star{width:116px;height:116px;transition:transform .25s ease}
+.star-choice:hover .star{transform:rotate(12deg)}
+.field-plant{min-height:132px;justify-content:center}
+.field-icon{height:74px}
+.field-icon>.star,.field-icon>.rays-star{width:54px;height:54px;color:inherit}
+.field-plant .star-color{color:inherit}
+.field-links{flex-wrap:wrap}
+.finance-section{margin:34px 0 30px;padding-top:28px;border-top:1px solid var(--line)}
+.finance-section>.tiny{margin-bottom:20px}
+.finance-card{padding:20px 0;border-bottom:1px solid var(--line)}
+.finance-card.paused{opacity:.62}
+.finance-card small{font-size:11px;color:var(--muted)}
+.finance-card h3{margin-top:5px}
+.finance-card p{font-size:13px;line-height:1.7}
+.finance-card p.muted{font-size:12px}
+.finance-meter{height:3px;margin:16px 0;background:var(--line);border-radius:3px;overflow:hidden}
+.finance-meter span{display:block;height:100%;background:var(--chosen-accent,#343630)}
+.finance-history{padding:10px 0 18px;font-size:12px;color:var(--muted)}
+.finance-history summary{cursor:pointer}
+.finance-history p{padding-top:8px}
+.orientation-block{padding:17px 0;border-bottom:1px solid var(--line)}
+.orientation-block summary{cursor:pointer;font-size:15px}
+.orientation-block textarea{margin:18px 0 3px}
+.orientation-form>.check-label{margin:28px 0}
+.original-week-marks{gap:4px}
+.original-week-marks button{min-width:25px}
+.mobile-nav{grid-template-columns:repeat(5,1fr)}
+.mobile-nav button{min-width:0}
+@media(min-width:761px){.mobile-header{display:flex}}
+.welcome .star-choice .star-color{color:var(--chosen-accent)}
+.page:has(.orientation-form) .heading,.page:has(.settings) .heading{display:block}
