@@ -25,11 +25,12 @@ test('AI request passes limited context and returns model text', async () => {
     return new Response(JSON.stringify({ output: [{ content: [{ type: 'output_text', text: 'Давай начнём с малого.' }] }] }), { status: 200 });
   };
   try {
-    const response = await (await worker).fetch(new Request(url, { method: 'POST', headers: { 'oai-authenticated-user-id': 'u2', origin: 'https://example.com', 'content-type': 'application/json' }, body: JSON.stringify({ mode: 'talk', text: 'Мне сложно начать', profile: { memory: '' } }) }), { OPENAI_API_KEY: 'test' });
+    const response = await (await worker).fetch(new Request(url, { method: 'POST', headers: { 'oai-authenticated-user-id': 'u2', origin: 'https://example.com', 'content-type': 'application/json' }, body: JSON.stringify({ mode: 'talk', text: 'Мне сложно начать', profile: { style: 'cheeky', memory: '' } }) }), { OPENAI_API_KEY: 'test' });
     assert.equal(response.status, 200);
     assert.equal((await response.json()).text, 'Давай начнём с малого.');
     assert.equal(sent.store, false);
     assert.equal(sent.model, 'gpt-6-luna');
     assert.ok(sent.input.includes('Мне сложно начать'));
+    assert.ok(sent.instructions.includes('дерзко, смело и по-доброму'));
   } finally { global.fetch = original; }
 });
