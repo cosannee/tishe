@@ -1,13 +1,9 @@
 # ИИ для GitHub Pages через Cloudflare Worker
 
-Этот Worker принимает запросы с `https://cosannee.github.io`, хранит `OPENAI_API_KEY` как секрет Cloudflare и обращается к OpenAI с сервера. Ключ не попадает в файлы GitHub Pages. В интерфейсе ИИ включается только после записи опубликованного адреса Worker в корневой `ai-config.js`.
+Этот Worker принимает запросы с `https://cosannee.github.io`, хранит `OPENAI_API_KEY` как секрет Cloudflare и обращается к OpenAI с сервера. Ключ не попадает в файлы GitHub Pages. Опубликованный адрес: `https://tishe-ai.zaytsevalexandara.workers.dev/api/ai`. Он указан в корневом `ai-config.js`.
 
 ## Публикация
 
-1. Войти в свой аккаунт Cloudflare и установить Wrangler 4.36 или новее.
-2. Из папки `cloudflare/` выполнить `npx wrangler deploy`. Имя Worker: `tishe-ai`; Cloudflare выдаст адрес `https://tishe-ai.<поддомен>.workers.dev`.
-3. Добавить секрет командой `npx wrangler secret put OPENAI_API_KEY`. Ввести значение в защищённом запросе Wrangler, не помещать его в Git или `ai-config.js`.
-4. Указать полный адрес `https://tishe-ai.<поддомен>.workers.dev/api/ai` в корневом `ai-config.js` и опубликовать изменение на GitHub Pages.
-5. Проверить в браузере разговор и разбор еды. До шага 4 на GitHub Pages остаются локальные ответы, и интерфейс прямо сообщает об этом.
+Worker уже опубликован в аккаунте владельца. Для последующих обновлений из папки `cloudflare/` можно выполнить `npx wrangler deploy`; для замены секрета — `npx wrangler secret put OPENAI_API_KEY`. Значение секрета нельзя помещать в Git или `ai-config.js`. После изменения адреса Worker обновить `ai-config.js` и опубликовать GitHub Pages.
 
 `wrangler.jsonc` задаёт три запроса в минуту на IP и двенадцать запросов в минуту суммарно на каждый узел Cloudflare. Эти лимиты приблизительные и не заменяют полноценную авторизацию или финансовый лимит проекта OpenAI. Перед открытым тестированием с другими людьми нужны отдельные аккаунты, более строгая защита от злоупотреблений и лимит расходов. Заголовок `Origin` и CORS защищают браузерные вызовы с чужих сайтов, но сами по себе не удостоверяют личность вызывающего.
