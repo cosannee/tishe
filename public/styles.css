@@ -124,3 +124,12 @@ dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;w
 @media(min-width:761px){.mobile-header{display:flex}}
 .welcome .star-choice .star-color{color:var(--chosen-accent)}
 .page:has(.orientation-form) .heading,.page:has(.settings) .heading{display:block}
+
+/* Let inspiration cards follow their own content height instead of grid rows. */
+.mood-grid{display:block;columns:2;column-gap:14px}
+.mood-grid:has(.mood-empty){columns:1}
+.mood-grid>.mood,.mood-grid>.note-card{display:inline-block;width:100%;vertical-align:top;break-inside:avoid;page-break-inside:avoid;margin:0 0 14px}
+.mood img{height:auto;max-height:480px;object-fit:cover}
+.note-card{min-height:0}
+.note-card small{margin-top:22px}
+@media(max-width:560px){.mood-grid{columns:1}.mood img{max-height:540px}}
