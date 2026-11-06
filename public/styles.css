@@ -125,11 +125,21 @@ dialog{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;w
 .welcome .star-choice .star-color{color:var(--chosen-accent)}
 .page:has(.orientation-form) .heading,.page:has(.settings) .heading{display:block}
 
-/* Let inspiration cards follow their own content height instead of grid rows. */
-.mood-grid{display:block;columns:2;column-gap:14px}
+/* Let inspiration cards follow their own content height at either viewing size. */
+.mood-view{display:flex;align-items:center;gap:7px;margin:0 0 14px;font-size:11px;color:var(--muted)}
+.mood-view span{margin-right:4px}
+.mood-view button{border:1px solid var(--line);border-radius:20px;padding:6px 10px;min-height:30px;color:var(--muted);font-size:11px}
+.mood-view button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink)}
+.mood-grid{display:block;column-gap:12px}
+.mood-grid-compact{columns:2}
+.mood-grid-large{columns:1}
 .mood-grid:has(.mood-empty){columns:1}
-.mood-grid>.mood,.mood-grid>.note-card{display:inline-block;width:100%;vertical-align:top;break-inside:avoid;page-break-inside:avoid;margin:0 0 14px}
-.mood img{height:auto;max-height:480px;object-fit:cover}
+.mood-grid>.mood,.mood-grid>.note-card{display:inline-block;width:100%;vertical-align:top;break-inside:avoid;page-break-inside:avoid;margin:0 0 12px}
+.mood img{height:auto;object-fit:cover}
+.mood-grid-compact .mood img{max-height:300px}
+.mood-grid-large .mood img{max-height:480px}
+.mood-grid-compact .mood figcaption{font-size:10px;line-height:1.4;margin:5px 2px 7px}
+.mood-grid-compact .note-card{padding:14px;font-size:13px;line-height:1.55}
 .note-card{min-height:0}
 .note-card small{margin-top:22px}
-@media(max-width:560px){.mood-grid{columns:1}.mood img{max-height:540px}}
+@media(min-width:761px){.mood-grid-compact{columns:3}.mood-grid-large{columns:2}}
